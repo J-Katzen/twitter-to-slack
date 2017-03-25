@@ -12,14 +12,15 @@ class DMListener(StreamListener):
         message = data._json.get('direct_message')
 
         # if dm from certain user, forward to slack channel
-        if message['sender']['id_str'] == os.environ.get("TWITTER_ID"):
-            self.slack.api_call(
-                "chat.postMessage",
-                channel=os.environ.get("SLACK_CHANNEL"),
-                text=message['text']
-            )
-        else:
-            print message['text']
+        # if message['sender']['id_str'] == os.environ.get("TWITTER_ID"):
+        self.slack.api_call(
+            "chat.postMessage",
+            channel=os.environ.get("SLACK_CHANNEL"),
+            text=message['text'],
+            username='Coindata',
+            as_user=False,
+            icon_emoji=':greenie:'
+        )
 
         return True
 
