@@ -14,16 +14,16 @@ class DMListener(StreamListener):
     def on_status(self, data):
         sender = data._json.get("user")
         message = data._json.get("text")
-        has_bitcoin_tag = True if "#bitcoin" in message["text"] else False
+        has_bitcoin_tag = True if "#bitcoin" in message else False
 
         if sender["id_str"] == s.TWITTER_ID and has_bitcoin_tag:
-            icon = ":reddie:" if "#altsaredead" in message["text"] else ":greenie:"
+            icon = ":reddie:" if "#altsaredead" in message else ":greenie:"
             self.slack.api_call(
                 "chat.postMessage",
                 channel=s.SLACK_CHANNEL,
                 username='Coindata',
                 as_user=False,
-                test=message["text"],
+                text=message,
                 icon_emoji=icon
             )
 
